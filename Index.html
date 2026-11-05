@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ❤️</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #080808;
+  color: white;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  background: radial-gradient(circle, #302315, #080808 70%);
+}
+
+.small {
+  color: #d4af65;
+  letter-spacing: 5px;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: clamp(48px, 10vw, 85px);
+  margin: 25px 0;
+}
+
+h1 span {
+  color: #d4af65;
+  font-style: italic;
+}
+
+p {
+  color: #c9c1b5;
+  line-height: 1.8;
+  margin: 15px;
+}
+
+button {
+  background: transparent;
+  color: #d4af65;
+  border: 1px solid #d4af65;
+  padding: 13px 25px;
+  margin: 15px;
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+
+button:hover {
+  background: #d4af65;
+  color: black;
+}
+
+section {
+  padding: 75px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  color: #d4af65;
+  font-size: 35px;
+  margin: 20px;
+  font-weight: normal;
+}
+
+.letter {
+  background: #171717;
+  border: 1px solid #5b482b;
+  padding: 30px;
+  line-height: 2;
+  font-size: 18px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border: 1px solid #d4af65;
+  border-radius: 5px;
+}
+
+.cake {
+  font-size: 100px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  50% { transform: translateY(-15px); }
+}
+
+#surprise {
+  display: none;
+  color: #d4af65;
+  font-size: 22px;
+  padding: 25px;
+}
+
+footer {
+  padding: 35px;
+  color: #b39a6c;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <div class="small">A SPECIAL DAY FOR SOMEONE SPECIAL</div>
+
+  <h1>Happy <br><span>Birthday!</span></h1>
+
+  <p>Today is all about celebrating YOU. ❤️</p>
+
+  <button onclick="document.getElementById('letter').scrollIntoView({behavior:'smooth'})">
+    OPEN YOUR SURPRISE ↓
+  </button>
+</div>
+
+<section id="letter">
+  <div class="small">A MESSAGE FROM THE HEART</div>
+  <h2>A Little Birthday Letter 💌</h2>
+
+  <div class="letter">
+    Happy Birthday to someone truly special!
+
+    May your life always be filled with happiness,
+    beautiful memories and endless reasons to smile.
+
+    You deserve all the wonderful things in this world.
+    May this new chapter bring you success, peace
+    and everything your heart wishes for.
+
+    Keep smiling and keep shining.
+
+    With lots of warm wishes ❤️
+  </div>
+</section>
+
+<section>
+  <div class="small">BEAUTIFUL MOMENTS</div>
+  <h2>Our Memories 📸</h2>
+
+  <p>Add your favourite pictures here.</p>
+
+  <input type="file" id="photos" accept="image/*" multiple>
+
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section>
+  <div class="small">MAKE A WISH</div>
+  <h2>A Birthday Cake 🎂</h2>
+
+  <div class="cake">🎂</div>
+
+  <button onclick="showSurprise()">
+    CLICK FOR A SURPRISE ✨
+  </button>
+
+  <div id="surprise">
+    Happy Birthday! ❤️
+
+    May every little dream of yours
+    turn into something beautiful.
+    You are truly special!
+  </div>
+</section>
+
+<section>
+  <h2>Some Birthday Music 🎵</h2>
+  <button onclick="toggleMusic()" id="musicButton">
+    ▶ PLAY MUSIC
+  </button>
+</section>
+
+<footer>
+  MADE WITH LOVE ❤️
+  <br><br>
+  A LITTLE SURPRISE JUST FOR YOU
+</footer>
+
+<script>
+
+// Photo gallery
+document.getElementById("photos").addEventListener("change", function() {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+
+  Array.from(this.files).forEach(file => {
+    if (!file.type.startsWith("image/")) return;
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.alt = "Birthday memory";
+    gallery.appendChild(img);
+  });
+});
+
+// Surprise message
+function showSurprise() {
+  const message = document.getElementById("surprise");
+  message.style.display = "block";
+}
+
+// Background music (original generated melody)
+let audio;
+let musicPlaying = false;
+let musicTimer;
+
+function toggleMusic() {
+  const button = document.getElementById("musicButton");
+
+  if (!musicPlaying) {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    audio.resume();
+
+    let notes = [392, 440, 523, 440, 349, 392, 440, 523];
+    let i = 0;
+
+    function playNote() {
+      if (!musicPlaying) return;
+
+      const oscillator = audio.createOscillator();
+      const volume = audio.createGain();
+
+      oscillator.frequency.value = notes[i++ % notes.length];
+      oscillator.type = "sine";
+
+      volume.gain.setValueAtTime(0.04, audio.currentTime);
+      volume.gain.exponentialRampToValueAtTime(
+        0.001, audio.currentTime + 0.4
+      );
+
+      oscillator.connect(volume);
+      volume.connect(audio.destination);
+
+      oscillator.start();
+      oscillator.stop(audio.currentTime + 0.4);
+    }
+
+    musicPlaying = true;
+    playNote();
+    musicTimer = setInterval(playNote, 550);
+
+    button.innerText = "Ⅱ PAUSE MUSIC";
+
+  } else {
+    musicPlaying = false;
+    clearInterval(musicTimer);
+    button.innerText = "▶ PLAY MUSIC";
+  }
+}
+
+<div class="letter-opening">
+
+  <p class="small">A LITTLE SURPRISE FOR YOU</p>
+
+  <h1>To Someone <span>Special</span> ❤️</h1>
+
+  <div class="portrait">
+    <img src="your-photo.jpg" alt="Birthday person">
+  </div>
+
+  <p>There is something I want you to read...</p>
+
+  <button onclick="openLetter()">
+    💌 OPEN MY LETTER
+  </button>
+
+  <div id="myLetter">
+    <h2>Happy Birthday ❤️</h2>
+
+    <p>
+      Today is a beautiful reminder that the world
+      became a little more special because you were born.
+
+      I hope life gives you every reason to smile,
+      every opportunity to grow and countless
+      beautiful memories.
+
+      Always remember that you are appreciated,
+      valued and truly special.
+
+      May all your dreams find their way to you.
+
+      Happy Birthday! ❤️
+    </p>
+
+    <p class="signature">With lots of love ✨</p>
+  </div>
+
+</div>
+
+<style>
+.letter-opening {
+  text-align: center;
+  padding: 65px 20px;
+  background: #090909;
+  color: white;
+}
+
+.portrait {
+  width: 230px;
+  height: 280px;
+  margin: 30px auto;
+  border: 2px solid #d4af65;
+  padding: 6px;
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#myLetter {
+  display: none;
+  max-width: 600px;
+  margin: 35px auto;
+  padding: 30px;
+  background: #191919;
+  border: 1px solid #d4af65;
+  line-height: 2;
+  animation: reveal 1s ease;
+}
+
+#myLetter h2 {
+  color: #d4af65;
+}
+
+.signature {
+  color: #d4af65;
+  font-style: italic;
+}
+
+@keyframes reveal {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+
+<script>
+function openLetter() {
+  document.getElementById("myLetter").style.display = "block";
+}
+</script>
+
+</script>
+
+</body>
+</html>
